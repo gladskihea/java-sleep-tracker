@@ -17,4 +17,4 @@ public class SleepAnalysisResult {
     public String toString() {
         return description + ": " + value;
     }
-}}
+}

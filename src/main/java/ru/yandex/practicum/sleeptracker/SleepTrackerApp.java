@@ -27,26 +27,13 @@ public class SleepTrackerApp {
 
         List<Function<List<SleepingSession>, SleepAnalysisResult>> analyzers = new ArrayList<>();
 
-        // 1. Общее количество
-        analyzers.add(s -> new SleepAnalysisResult("Всего сессий сна", s.size()));
-
-        // 2. Минимальная продолжительность
-        analyzers.add(s -> new SleepAnalysisResult("Минимальная длительность (мин)",
-                s.stream().mapToLong(SleepingSession::getDurationMinutes).min().orElse(0)));
-
-        // 3. Максимальная продолжительность
-        analyzers.add(s -> new SleepAnalysisResult("Максимальная длительность (мин)",
-                s.stream().mapToLong(SleepingSession::getDurationMinutes).max().orElse(0)));
-
-        // 4. Средняя продолжительность
-        analyzers.add(s -> new SleepAnalysisResult("Средняя длительность (мин)",
-                (int) s.stream().mapToLong(SleepingSession::getDurationMinutes).average().orElse(0)));
-
-        // 5. Плохое качество
-        analyzers.add(s -> new SleepAnalysisResult("Сессий с плохим качеством",
-                s.stream().filter(session -> session.getQuality() == SleepQuality.BAD).count()));
-
-
+        analyzers.add(new TotalSessionsAnalysis());
+        analyzers.add(new MinDurationAnalysis());
+        analyzers.add(new MaxDurationAnalysis());
+        analyzers.add(new AverageDurationAnalysis());
+        analyzers.add(new BadQualityAnalysis());
+        analyzers.add(new SleeplessNightsAnalysis());
+        analyzers.add(new ChronotypeAnalysis());
         analyzers.add(new SleeplessNightsAnalysis());
         analyzers.add(new ChronotypeAnalysis());
 
